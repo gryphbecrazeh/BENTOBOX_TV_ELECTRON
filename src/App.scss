@@ -22,6 +22,14 @@ body {
 		padding: 1em;
 	}
 }
+
+header a {
+	color: white;
+	:hover {
+		color: #aaa;
+		text-decoration: none;
+	}
+}
 // header {
 // 	height: 10vh;
 // 	max-height: 10vh;

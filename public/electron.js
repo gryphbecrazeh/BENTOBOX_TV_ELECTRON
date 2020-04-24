@@ -11,7 +11,9 @@ function createWindow() {
 			nodeIntegration: true,
 		},
 	});
-
+	// Hide Menu ( File, Edit, Window, etc...)
+	win.removeMenu();
+	win.webContents.openDevTools();
 	// and load the index.html of the app.
 	win.loadURL(
 		isDev
