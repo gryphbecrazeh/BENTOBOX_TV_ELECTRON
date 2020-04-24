@@ -1,34 +1,59 @@
 {
-  "name": "display",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+	"name": "display",
+	"author": "Christopher Cordine",
+	"description": "Video Streaming Proxy",
+	"version": "0.1.0",
+	"build": {
+		"appId": "bentobox.tv"
+	},
+	"homepage": "./",
+	"private": true,
+	"dependencies": {
+		"@testing-library/jest-dom": "^4.2.4",
+		"@testing-library/react": "^9.5.0",
+		"@testing-library/user-event": "^7.2.1",
+		"bootstrap": "^4.4.1",
+		"cross-env": "^7.0.2",
+		"electron-is-dev": "^1.2.0",
+		"node-sass": "^4.14.0",
+		"react": "^16.13.1",
+		"react-dom": "^16.13.1",
+		"react-router-dom": "^5.1.2",
+		"react-scripts": "3.4.1",
+		"reactstrap": "^8.4.1"
+	},
+	"main": "public/electron.js",
+	"scripts": {
+		"react-start": "react-scripts start",
+		"react-build": "react-scripts build",
+		"react-test": "react-scripts test",
+		"react-eject": "react-scripts eject",
+		"electron-build": "electron-builder",
+		"build": "npm run react-build && npm run electron-build",
+		"start": "concurrently \"cross-env BROWSER=none npm run react-start\" \"wait-on http://localhost:3000 && electron .\" "
+	},
+	"whiteListedModules": [
+		"react-router-dom"
+	],
+	"eslintConfig": {
+		"extends": "react-app"
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	},
+	"devDependencies": {
+		"concurrently": "^5.1.0",
+		"electron": "^8.2.3",
+		"electron-builder": "^22.5.1",
+		"wait-on": "^4.0.2"
+	}
 }
