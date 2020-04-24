@@ -18,13 +18,17 @@ let NavBar = () => {
 
 	return (
 		<Navbar color="dark" dark expand="md">
-			<NavbarBrand href="/">Bentobox TV</NavbarBrand>
+			<NavbarBrand>
+				<Link to="/">Bentobox TV</Link>
+			</NavbarBrand>
 			<NavbarText>Stream Anime with a Proxy</NavbarText>
 			<NavbarToggler onClick={toggle} />
 			<Collapse isOpen={isOpen} navbar>
 				<Nav navbar>
 					<NavItem>
-						<NavLink href="/catalog">Catalog</NavLink>
+						<NavLink>
+							<Link to="/catalog">Catalog</Link>
+						</NavLink>
 					</NavItem>
 				</Nav>
 			</Collapse>
