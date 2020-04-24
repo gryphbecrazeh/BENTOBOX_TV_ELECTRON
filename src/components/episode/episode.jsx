@@ -11,19 +11,32 @@ import {
 	Button,
 	CardFooter,
 } from "reactstrap";
+import Store from "../../data/store";
+import VideoScraper from "../../inc/videoScraper";
+
 let Episode = () => {
-	const [video, setEpisode] = useState({});
+	const [video, setVideo] = useState({});
 	const [loaded, setLoaded] = useState(false);
-	const { episodeID, nextEpisodeID } = useParams();
+	const { show, episode } = useParams();
+	console.log("show", show, "episode", episode);
 	useEffect(() => {
 		if (!loaded) {
-			axios.get(`/api/episode/?episode=${episodeID}`).then((res) => {
-				console.log(res);
-				setEpisode(res.data);
-				setLoaded(true);
+			let store = new Store({
+				configName: "user-catalog",
 			});
+			let episodes = store.get("episodes");
+			let currentEpisode = episodes.filter(
+				(item) => item.episode == episode
+			)[0];
+			if (!episode.video) {
+				let scraper = new VideoScraper();
+				scraper.getVideo(currentEpisode.link);
+			}
+			setVideo(currentEpisode);
+			setLoaded(true);
 		}
 	});
+	console.log(video);
 	return (
 		<div className="episode-container">
 			<div className="column-left"></div>
@@ -45,11 +58,11 @@ let Episode = () => {
 										height="auto"
 										controls
 										autoPlay
-										onEnded={() => {
-											if (nextEpisodeID) {
-												window.location = `/e/${nextEpisodeID}`;
-											}
-										}}
+										// onEnded={() => {
+										// 	if (nextEpisodeID) {
+										// 		window.location = `/e/${nextEpisodeID}`;
+										// 	}
+										// }}
 									>
 										<source src={`${video.video}`}></source>
 									</video>

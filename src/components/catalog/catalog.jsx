@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-// import axios from "axios";
 import {
 	Card,
 	CardImg,
@@ -10,6 +9,7 @@ import {
 	CardHeader,
 	Button,
 } from "reactstrap";
+import Store from "../../data/store";
 
 class Catalog extends Component {
 	state = {
@@ -17,6 +17,16 @@ class Catalog extends Component {
 		loaded: false,
 		sort: true,
 	};
+	componentDidMount() {
+		let store = new Store({
+			configName: "user-catalog",
+		});
+		let episodes = store.get("episodes");
+		this.setState({
+			episodes: episodes,
+			loaded: true,
+		});
+	}
 
 	render() {
 		let sortVideos = (array, sort) => {
@@ -43,15 +53,15 @@ class Catalog extends Component {
 							style={{ backgroundColor: "#333", borderColor: "#333" }}
 						>
 							<CardHeader>
-								<Link to={`/e/${episode._id}/${nextEpisodeId}`}>
+								<Link to={`/e/${episode.name}/${episode.episode}`}>
 									<CardTitle>{`${episode.name} ${episode.episode}`}</CardTitle>
 								</Link>
 							</CardHeader>
-							<Link to={`/e/${episode._id}/${nextEpisodeId}`}>
+							<Link to={`/e/${episode.name}/${episode.episode}`}>
 								<CardImg top width="100%" src={episode.image} />
 							</Link>
 							<CardBody>
-								<Button tag={Link} to={`/e/${episode._id}/${nextEpisodeId}`}>
+								<Button tag={Link} to={`/e/${episode.name}/${episode.episode}`}>
 									Watch Now!
 								</Button>
 							</CardBody>
