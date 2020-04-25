@@ -33,4 +33,5 @@ function parseDataFile(filePath, defaults) {
 	}
 }
 
-module.exports = Store;
+// module.exports = Store;
+export default Store;

@@ -30,10 +30,20 @@ let Episode = () => {
 			)[0];
 			if (!episode.video) {
 				let scraper = new VideoScraper();
-				scraper.getVideo(currentEpisode.link);
+				scraper
+					.getVideo(currentEpisode.link)
+					.then((res) => {
+						console.log(res);
+						setVideo({ ...currentEpisode, video: res });
+						setLoaded(true);
+
+						// store.set("episodes",[])
+					})
+					.catch((err) => console.log(err));
+			} else {
+				setVideo(currentEpisode);
+				setLoaded(true);
 			}
-			setVideo(currentEpisode);
-			setLoaded(true);
 		}
 	});
 	console.log(video);

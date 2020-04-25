@@ -4,6 +4,8 @@ const getUpdates = () => {
 	axios
 		.get("https://frozen-earth-42502.herokuapp.com/api/catalog")
 		.then((res) => {
+			let episodes = res.data.video;
+			episodes.forEach((episode) => (episode.video = null));
 			const store = new Store({
 				configName: "user-catalog",
 				defaults: {

@@ -103,4 +103,7 @@ a {
 .episode-container {
 	display: grid;
 	grid-template-columns: 1fr 6fr 1fr;
+	@media screen and (min-width: 800px) {
+		grid-template-columns: 1fr;
+	}
 }
