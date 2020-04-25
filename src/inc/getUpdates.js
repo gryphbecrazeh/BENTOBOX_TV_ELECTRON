@@ -1,10 +1,11 @@
-const Store = require("../data/store");
+// const Store = require("../data/store");
+import Store from "../data/store";
 const getUpdates = () => {
 	const axios = require("axios");
 	axios
 		.get("https://frozen-earth-42502.herokuapp.com/api/catalog")
 		.then((res) => {
-			let episodes = res.data.video;
+			let episodes = res.data.videos;
 			episodes.forEach((episode) => (episode.video = null));
 			const store = new Store({
 				configName: "user-catalog",
@@ -17,4 +18,5 @@ const getUpdates = () => {
 		.catch((err) => console.log(err));
 };
 
-module.exports = getUpdates;
+// module.exports = getUpdates;
+export default getUpdates;
