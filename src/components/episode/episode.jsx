@@ -2,14 +2,15 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import {
 	Card,
-	// CardImg,
+	CardImg,
 	CardBody,
 	CardTitle,
 	CardSubtitle,
-	// CardHeader,
-	// Button,
+	CardHeader,
+	Button,
 	CardFooter,
 } from "reactstrap";
+import { Link, Redirect } from "react-router-dom";
 import Store from "../../data/store";
 import VideoScraper from "../../inc/videoScraper";
 
@@ -117,14 +118,9 @@ let Episode = () => {
 	});
 	if (loaded) {
 		let { nextEpisode } = video;
-		console.log(
-			"next episode",
-			nextEpisode,
-			nextEpisode.name,
-			nextEpisode.episode
-		);
 		return (
 			<div className="episode-container">
+				{/* <Redirect to="/" /> */}
 				<div className="column-left"></div>
 				<div className="column-center">
 					<Card
@@ -156,7 +152,40 @@ let Episode = () => {
 						</CardFooter>
 					</Card>
 				</div>
-				<div className="column-right"></div>
+				<div className="column-right">
+					{(() => {
+						if (loaded && nextEpisode) {
+							return (
+								<Card
+									inverse
+									style={{
+										backgroundColor: "#333",
+										border: "#333",
+									}}
+								>
+									<CardHeader>
+										<Link to={`/e/${nextEpisode.name}/${nextEpisode.episode}`}>
+											<CardTitle>{`${nextEpisode.name} ${nextEpisode.episode}`}</CardTitle>
+										</Link>
+									</CardHeader>
+									<CardBody>
+										<Link to={`/e/${nextEpisode.name}/${nextEpisode.episode}`}>
+											<CardImg top width="100%" src={nextEpisode.image} />
+										</Link>
+									</CardBody>
+									<CardFooter>
+										<Button
+											tag={Link}
+											to={`/e/${nextEpisode.name}/${nextEpisode.episode}`}
+										>
+											Watch Now!
+										</Button>
+									</CardFooter>
+								</Card>
+							);
+						}
+					})()}
+				</div>
 			</div>
 		);
 	} else {

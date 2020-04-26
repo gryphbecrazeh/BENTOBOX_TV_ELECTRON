@@ -23,7 +23,7 @@ function App() {
 				<Switch>
 					<Route path="/e/:show/:episode" component={Episode} />
 					<Route exact path="/catalog" component={Catalog}></Route>
-					<Route exact path="/" component={Dashboard} />
+					<Route path="/" component={Dashboard} />
 				</Switch>
 			</div>
 		</Router>
