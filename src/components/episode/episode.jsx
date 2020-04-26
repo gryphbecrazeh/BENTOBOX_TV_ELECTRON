@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
+import { FaStar, FaDownload, FaPhotoVideo } from "react-icons/fa";
 import {
 	Card,
 	CardImg,
@@ -110,6 +111,7 @@ let Episode = () => {
 								updatedEpisodes[nextEpisodeIndex] = updatedNextEpisode;
 								// Store the updated episodes array in the store
 								store.set("episodes", updatedEpisodes);
+								setVideo({ ...video });
 								console.log("Next episode loaded...");
 							})
 							.catch((err) => console.log("can't get next episode", err));
@@ -153,7 +155,27 @@ let Episode = () => {
 						</CardBody>
 						<CardFooter>
 							<CardTitle>{`${video.name} ${video.episode}`}</CardTitle>
-							<CardSubtitle>Subtitle</CardSubtitle>
+							<div style={{ display: "flex", justifyContent: "flex-end" }}>
+								<Button
+									// block
+									onClick={() => console.log("Download")}
+									color="primary"
+								>
+									<FaDownload />
+								</Button>
+								<Button
+									// block
+									color="warning"
+								>
+									<FaStar />
+								</Button>
+								<Button
+									//  block
+									color="success"
+								>
+									<FaPhotoVideo />
+								</Button>
+							</div>
 						</CardFooter>
 					</Card>
 				</div>
@@ -185,14 +207,20 @@ let Episode = () => {
 										</Link>
 									</CardBody>
 									<CardFooter>
-										<Button
-											tag={Link}
-											to={`/e/${nextEpisode.name}/${nextEpisode.episode}`}
-											onClick={renderNextEpisode}
-											block
-										>
-											Watch Now!
-										</Button>
+										{(() => {
+											if (nextEpisode.video) {
+												return (
+													<Button
+														tag={Link}
+														to={`/e/${nextEpisode.name}/${nextEpisode.episode}`}
+														onClick={renderNextEpisode}
+														block
+													>
+														Watch Now!
+													</Button>
+												);
+											}
+										})()}
 									</CardFooter>
 								</Card>
 							);
@@ -213,12 +241,15 @@ let Episode = () => {
 							border: "#333",
 						}}
 					>
-						<CardBody>
+						<CardBody
+							style={{
+								display: "flex",
+								justifyContent: "center",
+								alignItems: "center",
+							}}
+						>
 							<Spinner animation="border" variant="primary" />
 						</CardBody>
-						<CardFooter>
-							<CardTitle>{`${video.name} ${video.episode}`}</CardTitle>
-						</CardFooter>
 					</Card>
 				</div>
 				<div className="column-right"></div>
