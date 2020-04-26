@@ -7,4 +7,5 @@
 
 ## Bugs
 
-Images aren't loading in production
+- Images aren't loading in production
+- Next episode disappears in production
