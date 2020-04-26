@@ -21,8 +21,6 @@ class VideoScraper {
 							let resUrl = response["_url"];
 							let status = response["_status"];
 							if (resUrl.match(/s.\.mp4\.sh\/\w+\//gim) && status == "206") {
-								console.log(resUrl);
-
 								videoUrl = resUrl;
 							}
 						}

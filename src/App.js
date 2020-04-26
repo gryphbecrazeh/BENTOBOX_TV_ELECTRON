@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.scss";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import NavBar from "./components/navbar/navbar";
@@ -8,7 +8,12 @@ import Dashboard from "./components/dashboard/dashboard";
 import getUpdates from "./inc/getUpdates";
 
 function App() {
-	getUpdates();
+	const [loaded, setLoaded] = useState(false);
+	if (!loaded) {
+		console.log("loading updates");
+		getUpdates();
+		setLoaded(true);
+	}
 	return (
 		<Router>
 			<div className="App">

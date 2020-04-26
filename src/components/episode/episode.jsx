@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
-import axios from "axios";
 import {
 	Card,
-	CardImg,
+	// CardImg,
 	CardBody,
 	CardTitle,
 	CardSubtitle,
-	CardHeader,
-	Button,
+	// CardHeader,
+	// Button,
 	CardFooter,
 } from "reactstrap";
 import Store from "../../data/store";
@@ -18,35 +17,106 @@ let Episode = () => {
 	const [video, setVideo] = useState({});
 	const [loaded, setLoaded] = useState(false);
 	const { show, episode } = useParams();
-	console.log("show", show, "episode", episode);
 	useEffect(() => {
 		if (!loaded) {
+			console.log("not loaded");
 			let store = new Store({
 				configName: "user-catalog",
 			});
-			let episodes = store.get("episodes");
-			let currentEpisode = episodes.filter(
-				(item) => item.episode == episode
-			)[0];
-			if (!episode.video) {
+			// Get EPISODES from Store
+			const episodes = store
+				.get("episodes")
+				.sort((a, b) => a.episode - b.episode);
+			// Instantiate UPDATED episodes list
+			const updatedEpisodes = [...episodes];
+			// Get Current Episode
+			console.log(episode);
+			let episodeIndex = Number(episode) - 1;
+			let currentEpisode = updatedEpisodes[episodeIndex];
+			let updatedEpisode = { ...currentEpisode };
+
+			// Get Next Episode
+			let nextEpisodeIndex = episodeIndex + 1;
+			let nextEpisode = updatedEpisodes[nextEpisodeIndex];
+			let updatedNextEpisode = { ...nextEpisode };
+
+			// Update the current episodes next episode link
+			updatedEpisode.nextEpisode = updatedNextEpisode;
+
+			// Load the video file for the current video
+			if (!currentEpisode.video) {
 				let scraper = new VideoScraper();
 				scraper
 					.getVideo(currentEpisode.link)
-					.then((res) => {
-						console.log(res);
-						setVideo({ ...currentEpisode, video: res });
+					.then((currentVideoLink) => {
+						// Update the current episodes video
+						updatedEpisode.video = currentVideoLink;
+						// update the current episodes array to update the current episode
+						updatedEpisodes[episodeIndex] = updatedEpisode;
+						// Update the state to play the video immediately
+						setVideo(updatedEpisode);
 						setLoaded(true);
+						// If the next episode video file hasn't been retrieved, retrieve it
+						if (!currentEpisode.nextEpisode || !nextEpisode.video) {
+							// Check if the nextEpisode from the array is not null
+							if (nextEpisode) {
+								let scraper = new VideoScraper();
 
-						// store.set("episodes",[])
+								scraper
+									.getVideo(nextEpisode.link)
+									.then((nextEpisodeLink) => {
+										// Add the next episode link to the next episode
+										updatedNextEpisode.video = nextEpisodeLink;
+										// Add the updated next episode to the current episodes next episode object
+										updatedEpisode.nextEpisode = updatedNextEpisode;
+										// update the updated episodes array with the updated episodes
+										updatedEpisodes[episodeIndex] = updatedEpisode;
+										updatedEpisodes[nextEpisodeIndex] = updatedNextEpisode;
+										// Store the updated episodes array in the store
+										store.set("episodes", updatedEpisodes);
+										console.log("Next episode loaded...");
+									})
+									.catch((err) => console.log("can't get next episode", err));
+							}
+						} else {
+							// Store the updated Episodes in the store
+							store.set("episodes", updatedEpisodes);
+						}
 					})
 					.catch((err) => console.log(err));
 			} else {
-				setVideo(currentEpisode);
+				// If video file is already loaded, return the current episode and stop loading
+				setVideo(updatedEpisode);
 				setLoaded(true);
+				// If the next episode video file hasn't been retrieved, retrieve it
+				if (!currentEpisode.nextEpisode || !nextEpisode.video) {
+					// Check if the nextEpisode from the array is not null
+					if (nextEpisode) {
+						let scraper = new VideoScraper();
+
+						scraper
+							.getVideo(nextEpisode.link)
+							.then((nextEpisodeLink) => {
+								// Add the next episode link to the next episode
+								updatedNextEpisode.video = nextEpisodeLink;
+								// Add the updated next episode to the current episodes next episode object
+								updatedEpisode.nextEpisode = updatedNextEpisode;
+								// update the updated episodes array with the updated episodes
+								updatedEpisodes[episodeIndex] = updatedEpisode;
+								updatedEpisodes[nextEpisodeIndex] = updatedNextEpisode;
+								// Store the updated episodes array in the store
+								store.set("episodes", updatedEpisodes);
+								console.log("Next episode loaded...");
+							})
+							.catch((err) => console.log("can't get next episode", err));
+					}
+				}
 			}
 		}
 	});
-	console.log(video);
+	let { nextEpisode } = video;
+	console.log(nextEpisode);
+
 	return (
 		<div className="episode-container">
 			<div className="column-left"></div>
@@ -60,19 +130,19 @@ let Episode = () => {
 				>
 					<CardBody>
 						{(() => {
-							if (video.video != null) {
-								console.log(video.video);
+							if (loaded) {
 								return (
 									<video
 										width="100%"
 										height="auto"
 										controls
 										autoPlay
-										// onEnded={() => {
-										// 	if (nextEpisodeID) {
-										// 		window.location = `/e/${nextEpisodeID}`;
-										// 	}
-										// }}
+										onEnded={() => {
+											console.log("video ended", nextEpisode);
+											if (nextEpisode) {
+												window.location = `/e/${nextEpisode.name}/${nextEpisode.episode}}`;
+											}
+										}}
 									>
 										<source src={`${video.video}`}></source>
 									</video>
@@ -82,10 +152,16 @@ let Episode = () => {
 							}
 						})()}
 					</CardBody>
-					<CardFooter>
-						<CardTitle>{`${video.name} ${video.episode}`}</CardTitle>
-						<CardSubtitle>Subtitle</CardSubtitle>
-					</CardFooter>
+					{(() => {
+						if (loaded) {
+							return (
+								<CardFooter>
+									<CardTitle>{`${video.name} ${video.episode}`}</CardTitle>
+									<CardSubtitle>Subtitle</CardSubtitle>
+								</CardFooter>
+							);
+						}
+					})()}
 				</Card>
 			</div>
 			<div className="column-right"></div>

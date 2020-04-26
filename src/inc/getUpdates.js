@@ -1,4 +1,3 @@
-// const Store = require("../data/store");
 import Store from "../data/store";
 const getUpdates = () => {
 	const axios = require("axios");
@@ -18,5 +17,4 @@ const getUpdates = () => {
 		.catch((err) => console.log(err));
 };
 
-// module.exports = getUpdates;
 export default getUpdates;
