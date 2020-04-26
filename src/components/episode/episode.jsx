@@ -9,8 +9,9 @@ import {
 	CardHeader,
 	Button,
 	CardFooter,
+	Spinner,
 } from "reactstrap";
-import { Link, Redirect } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Store from "../../data/store";
 import VideoScraper from "../../inc/videoScraper";
 
@@ -18,9 +19,10 @@ let Episode = () => {
 	const [video, setVideo] = useState({});
 	const [loaded, setLoaded] = useState(false);
 	const { show, episode } = useParams();
+	let history = useHistory();
+
 	useEffect(() => {
 		if (!loaded) {
-			console.log("not loaded");
 			let store = new Store({
 				configName: "user-catalog",
 			});
@@ -31,8 +33,6 @@ let Episode = () => {
 			// Instantiate UPDATED episodes list
 			const updatedEpisodes = [...episodes];
 			// Get Current Episode
-			console.log("episodes", updatedEpisodes);
-			console.log("episode", episode);
 			let episodeIndex = Number(episode) - 1;
 			let currentEpisode = updatedEpisodes[episodeIndex];
 			let updatedEpisode = { ...currentEpisode };
@@ -78,7 +78,9 @@ let Episode = () => {
 										store.set("episodes", updatedEpisodes);
 										console.log("Next episode loaded...");
 									})
-									.catch((err) => console.log("can't get next episode", err));
+									.catch((err) => {
+										console.log("can't get next episode", err);
+									});
 							}
 						} else {
 							// Store the updated Episodes in the store
@@ -118,9 +120,14 @@ let Episode = () => {
 	});
 	if (loaded) {
 		let { nextEpisode } = video;
+		let renderNextEpisode = () => {
+			if (nextEpisode) {
+				setVideo(nextEpisode);
+				setLoaded(false);
+			}
+		};
 		return (
 			<div className="episode-container">
-				{/* <Redirect to="/" /> */}
 				<div className="column-left"></div>
 				<div className="column-center">
 					<Card
@@ -137,10 +144,8 @@ let Episode = () => {
 								controls
 								autoPlay
 								onEnded={() => {
-									console.log("video ended", nextEpisode);
-									if (nextEpisode) {
-										window.location = `/e/${nextEpisode.name}/${nextEpisode.episode}`;
-									}
+									renderNextEpisode();
+									history.push(`/e/${nextEpisode.name}/${nextEpisode.episode}`);
 								}}
 							>
 								<source src={`${video.video}`}></source>
@@ -164,12 +169,18 @@ let Episode = () => {
 									}}
 								>
 									<CardHeader>
-										<Link to={`/e/${nextEpisode.name}/${nextEpisode.episode}`}>
+										<Link
+											to={`/e/${nextEpisode.name}/${nextEpisode.episode}`}
+											onClick={renderNextEpisode}
+										>
 											<CardTitle>{`${nextEpisode.name} ${nextEpisode.episode}`}</CardTitle>
 										</Link>
 									</CardHeader>
 									<CardBody>
-										<Link to={`/e/${nextEpisode.name}/${nextEpisode.episode}`}>
+										<Link
+											to={`/e/${nextEpisode.name}/${nextEpisode.episode}`}
+											onClick={renderNextEpisode}
+										>
 											<CardImg top width="100%" src={nextEpisode.image} />
 										</Link>
 									</CardBody>
@@ -177,6 +188,8 @@ let Episode = () => {
 										<Button
 											tag={Link}
 											to={`/e/${nextEpisode.name}/${nextEpisode.episode}`}
+											onClick={renderNextEpisode}
+											block
 										>
 											Watch Now!
 										</Button>
@@ -189,7 +202,28 @@ let Episode = () => {
 			</div>
 		);
 	} else {
-		return <div>Loading</div>;
+		return (
+			<div className="episode-container">
+				<div className="column-left"></div>
+				<div className="column-center">
+					<Card
+						inverse
+						style={{
+							backgroundColor: "#333",
+							border: "#333",
+						}}
+					>
+						<CardBody>
+							<Spinner animation="border" variant="primary" />
+						</CardBody>
+						<CardFooter>
+							<CardTitle>{`${video.name} ${video.episode}`}</CardTitle>
+						</CardFooter>
+					</Card>
+				</div>
+				<div className="column-right"></div>
+			</div>
+		);
 	}
 };
 export default Episode;

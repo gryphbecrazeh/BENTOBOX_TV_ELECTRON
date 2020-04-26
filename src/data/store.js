@@ -4,7 +4,6 @@ const fs = window.require("fs");
 
 class Store {
 	constructor(opts) {
-		console.log(opts);
 		const userDataPath = (electron.app || electron.remote.app).getPath(
 			"userData"
 		);

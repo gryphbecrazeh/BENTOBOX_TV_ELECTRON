@@ -6,7 +6,7 @@ class VideoScraper {
 			const chromium_path =
 				"node_modules/puppeteer/.local-chromium/linux-737027/chrome-linux/chrome";
 			// const chromium = require("chromium");
-			console.log("launching puppeteer");
+			// console.log("launching puppeteer");
 			return puppeteer
 				.launch({
 					headless: true,
@@ -14,7 +14,7 @@ class VideoScraper {
 					args: ["--no-sandbox", "--disable-setuid-sandbox"],
 				})
 				.then(async (browser) => {
-					console.log("puppeteerlaunched");
+					// console.log("puppeteerlaunched");
 					const page = await browser.newPage();
 					page.on("response", (response) => {
 						if (videoUrl == null) {

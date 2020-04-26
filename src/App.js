@@ -21,7 +21,7 @@ function App() {
 					<NavBar />
 				</header>
 				<Switch>
-					<Route path="/e/:show/:episode" component={Episode} />
+					<Route exact path="/e/:show/:episode" component={Episode} />
 					<Route exact path="/catalog" component={Catalog}></Route>
 					<Route path="/" component={Dashboard} />
 				</Switch>
