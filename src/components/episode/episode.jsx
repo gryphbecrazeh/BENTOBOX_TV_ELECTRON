@@ -30,7 +30,8 @@ let Episode = () => {
 			// Instantiate UPDATED episodes list
 			const updatedEpisodes = [...episodes];
 			// Get Current Episode
-			console.log(episode);
+			console.log("episodes", updatedEpisodes);
+			console.log("episode", episode);
 			let episodeIndex = Number(episode) - 1;
 			let currentEpisode = updatedEpisodes[episodeIndex];
 			let updatedEpisode = { ...currentEpisode };
@@ -114,58 +115,52 @@ let Episode = () => {
 			}
 		}
 	});
-	let { nextEpisode } = video;
-	console.log(nextEpisode);
-
-	return (
-		<div className="episode-container">
-			<div className="column-left"></div>
-			<div className="column-center">
-				<Card
-					inverse
-					style={{
-						backgroundColor: "#333",
-						border: "#333",
-					}}
-				>
-					<CardBody>
-						{(() => {
-							if (loaded) {
-								return (
-									<video
-										width="100%"
-										height="auto"
-										controls
-										autoPlay
-										onEnded={() => {
-											console.log("video ended", nextEpisode);
-											if (nextEpisode) {
-												window.location = `/e/${nextEpisode.name}/${nextEpisode.episode}}`;
-											}
-										}}
-									>
-										<source src={`${video.video}`}></source>
-									</video>
-								);
-							} else {
-								return <div>Loading...</div>;
-							}
-						})()}
-					</CardBody>
-					{(() => {
-						if (loaded) {
-							return (
-								<CardFooter>
-									<CardTitle>{`${video.name} ${video.episode}`}</CardTitle>
-									<CardSubtitle>Subtitle</CardSubtitle>
-								</CardFooter>
-							);
-						}
-					})()}
-				</Card>
+	if (loaded) {
+		let { nextEpisode } = video;
+		console.log(
+			"next episode",
+			nextEpisode,
+			nextEpisode.name,
+			nextEpisode.episode
+		);
+		return (
+			<div className="episode-container">
+				<div className="column-left"></div>
+				<div className="column-center">
+					<Card
+						inverse
+						style={{
+							backgroundColor: "#333",
+							border: "#333",
+						}}
+					>
+						<CardBody>
+							<video
+								width="100%"
+								height="auto"
+								controls
+								autoPlay
+								onEnded={() => {
+									console.log("video ended", nextEpisode);
+									if (nextEpisode) {
+										window.location = `/e/${nextEpisode.name}/${nextEpisode.episode}`;
+									}
+								}}
+							>
+								<source src={`${video.video}`}></source>
+							</video>
+						</CardBody>
+						<CardFooter>
+							<CardTitle>{`${video.name} ${video.episode}`}</CardTitle>
+							<CardSubtitle>Subtitle</CardSubtitle>
+						</CardFooter>
+					</Card>
+				</div>
+				<div className="column-right"></div>
 			</div>
-			<div className="column-right"></div>
-		</div>
-	);
+		);
+	} else {
+		return <div>Loading</div>;
+	}
 };
 export default Episode;
