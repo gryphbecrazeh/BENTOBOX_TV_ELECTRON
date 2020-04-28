@@ -19,10 +19,16 @@ import VideoScraper from "../../inc/videoScraper";
 let Episode = () => {
 	const [video, setVideo] = useState({});
 	const [loaded, setLoaded] = useState(false);
+	const [nextVideoLoaded, setNextVideoLoaded] = useState(false);
 	const { show, episode } = useParams();
+	let { nextEpisode } = video;
+
 	let history = useHistory();
 
 	useEffect(() => {
+		if (!nextEpisode || nextEpisode.video) {
+			setNextVideoLoaded(false);
+		}
 		if (!loaded) {
 			let store = new Store({
 				configName: "user-catalog",
@@ -77,6 +83,7 @@ let Episode = () => {
 										updatedEpisodes[nextEpisodeIndex] = updatedNextEpisode;
 										// Store the updated episodes array in the store
 										store.set("episodes", updatedEpisodes);
+										setNextVideoLoaded(true);
 										console.log("Next episode loaded...");
 									})
 									.catch((err) => {
@@ -111,16 +118,18 @@ let Episode = () => {
 								updatedEpisodes[nextEpisodeIndex] = updatedNextEpisode;
 								// Store the updated episodes array in the store
 								store.set("episodes", updatedEpisodes);
+								setNextVideoLoaded(true);
 								console.log("Next episode loaded...");
 							})
 							.catch((err) => console.log("can't get next episode", err));
 					}
+				} else {
+					setNextVideoLoaded(true);
 				}
 			}
 		}
 	});
 	if (loaded) {
-		let { nextEpisode } = video;
 		let renderNextEpisode = () => {
 			if (nextEpisode) {
 				setLoaded(false);
@@ -216,13 +225,12 @@ let Episode = () => {
 											onClick={renderNextEpisode}
 											block
 										>
-											Watch Now!
+											{nextVideoLoaded ? "Watch Now!" : "Loading..."}
 										</Button>
 									</CardFooter>
 								</Card>
 							);
 						} else {
-							console.log(video);
 							return "No Next Episode";
 						}
 					})()}
