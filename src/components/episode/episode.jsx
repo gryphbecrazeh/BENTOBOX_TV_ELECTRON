@@ -111,7 +111,6 @@ let Episode = () => {
 								updatedEpisodes[nextEpisodeIndex] = updatedNextEpisode;
 								// Store the updated episodes array in the store
 								store.set("episodes", updatedEpisodes);
-								setVideo({ ...video });
 								console.log("Next episode loaded...");
 							})
 							.catch((err) => console.log("can't get next episode", err));
