@@ -1,8 +1,36 @@
+// Variables
 $pink: #f45b69;
 $white: #f6e8ea;
 $dark-grey: #22181c;
 $dark-red: #5a0001;
 $bright-red: #fd151b;
+
+$offset-position: 1000px;
+// Animations
+@keyframes slideUp {
+	0% {
+		margin-top: $offset-position;
+	}
+	100% {
+		margin-top: inherit;
+	}
+}
+@keyframes slideLeft {
+	0% {
+		margin-left: $offset-position;
+	}
+	100% {
+		margin-left: inherit;
+	}
+}
+@keyframes slideRight {
+	0% {
+		margin-right: $offset-position;
+	}
+	100% {
+		margin-right: inherit;
+	}
+}
 
 body {
 	background-color: #111 !important;
@@ -79,7 +107,9 @@ header a {
 		@media screen and (min-width: 1200px) {
 			grid-template-columns: repeat(5, 1fr);
 		}
-
+		> * {
+			animation: 500ms ease-in-out slideUp;
+		}
 		.episode {
 			background-color: white;
 			border-radius: 5px;
@@ -105,5 +135,19 @@ a {
 	grid-template-columns: 1fr;
 	@media screen and (min-width: 800px) {
 		grid-template-columns: 1fr 3fr 1fr;
+	}
+	.column-left {
+		animation: 500ms ease-in-out slideRight forwards;
+		animation-delay: 1s;
+		margin-right: $offset-position;
+	}
+	.column-center {
+		animation: 500ms ease-in-out slideUp forwards;
+		margin-top: $offset-position;
+	}
+	.column-right {
+		animation: 500ms ease-in-out slideLeft forwards;
+		animation-delay: 1s;
+		margin-left: $offset-position;
 	}
 }

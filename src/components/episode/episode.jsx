@@ -124,8 +124,8 @@ let Episode = () => {
 		let { nextEpisode } = video;
 		let renderNextEpisode = () => {
 			if (nextEpisode) {
-				setVideo(nextEpisode);
 				setLoaded(false);
+				setVideo(nextEpisode);
 			}
 		};
 		return (
@@ -181,7 +181,7 @@ let Episode = () => {
 				</div>
 				<div className="column-right">
 					{(() => {
-						if (loaded && nextEpisode) {
+						if (nextEpisode) {
 							return (
 								<Card
 									inverse
@@ -207,23 +207,20 @@ let Episode = () => {
 										</Link>
 									</CardBody>
 									<CardFooter>
-										{(() => {
-											if (nextEpisode.video) {
-												return (
-													<Button
-														tag={Link}
-														to={`/e/${nextEpisode.name}/${nextEpisode.episode}`}
-														onClick={renderNextEpisode}
-														block
-													>
-														Watch Now!
-													</Button>
-												);
-											}
-										})()}
+										<Button
+											tag={Link}
+											to={`/e/${nextEpisode.name}/${nextEpisode.episode}`}
+											onClick={renderNextEpisode}
+											block
+										>
+											Watch Now!
+										</Button>
 									</CardFooter>
 								</Card>
 							);
+						} else {
+							console.log(video);
+							return "No Next Episode";
 						}
 					})()}
 				</div>
