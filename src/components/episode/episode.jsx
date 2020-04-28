@@ -202,7 +202,11 @@ let Episode = () => {
 											to={`/e/${nextEpisode.name}/${nextEpisode.episode}`}
 											onClick={renderNextEpisode}
 										>
-											<CardImg top width="100%" src={nextEpisode.image} />
+											<CardImg
+												top
+												width="100%"
+												src={`https:${nextEpisode.image}`}
+											/>
 										</Link>
 									</CardBody>
 									<CardFooter>

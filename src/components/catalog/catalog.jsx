@@ -42,10 +42,6 @@ class Catalog extends Component {
 			return sortVideos(this.state.episodes, this.state.sort).map(
 				(episode, index, episodes) => {
 					let nextEpisode = episodes[(index += 1)];
-					let nextEpisodeId = "";
-					if (nextEpisode) {
-						nextEpisodeId = nextEpisode._id;
-					}
 					return (
 						<Card
 							key={episode._id}
@@ -58,7 +54,7 @@ class Catalog extends Component {
 								</Link>
 							</CardHeader>
 							<Link to={`/e/${episode.name}/${episode.episode}`}>
-								<CardImg top width="100%" src={episode.image} />
+								<CardImg top width="100%" src={`https:${episode.image}`} />
 							</Link>
 							<CardBody>
 								<Button tag={Link} to={`/e/${episode.name}/${episode.episode}`}>

@@ -10,6 +10,7 @@ const store = new Store({
 		windowBounds: {
 			width: 800,
 			height: 600,
+			fullscreen: false,
 		},
 	},
 });
@@ -24,7 +25,7 @@ function createWindow() {
 		fullscreen: false,
 		webPreferences: {
 			nodeIntegration: true,
-			webSecurity: false,
+			// webSecurity: false,
 			preload: __dirname + "/preload.js",
 		},
 	});
