@@ -77,6 +77,7 @@ header a {
 .catalog-container {
 	padding: 1em;
 	text-align: center;
+
 	.catalog-interaction-menu {
 		display: flex;
 		justify-content: center;
@@ -89,15 +90,21 @@ header a {
 			padding-bottom: 0.5em;
 		}
 		.catalog-interaction {
+			width: 100%;
 			display: flex;
 			justify-content: center;
 			align-items: center;
+			.episode-search {
+				background-color: transparent;
+				border-radius: 5px;
+			}
 		}
 	}
 	.catalog {
 		display: grid;
 		grid-gap: 1em;
 		grid-template-columns: 1fr;
+
 		@media screen and (min-width: 600px) {
 			grid-template-columns: repeat(2, 1fr);
 		}

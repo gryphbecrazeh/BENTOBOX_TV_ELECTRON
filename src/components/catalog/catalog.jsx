@@ -16,16 +16,19 @@ class Catalog extends Component {
 		episodes: [],
 		loaded: false,
 		sort: true,
+		query: "",
 	};
 	componentDidMount() {
 		let store = new Store({
 			configName: "user-catalog",
 		});
-		let episodes = store.get("episodes");
-		this.setState({
-			episodes: episodes,
-			loaded: true,
-		});
+		if (!this.state.loaded) {
+			let episodes = store.get("episodes");
+			this.setState({
+				episodes: episodes,
+				loaded: true,
+			});
+		}
 	}
 
 	render() {
@@ -39,7 +42,7 @@ class Catalog extends Component {
 			});
 		};
 		let renderVideos = (array) => {
-			return sortVideos(this.state.episodes, this.state.sort).map(
+			return sortVideos(array, this.state.sort).map(
 				(episode, index, episodes) => {
 					let nextEpisode = episodes[(index += 1)];
 					return (
@@ -66,15 +69,30 @@ class Catalog extends Component {
 				}
 			);
 		};
+		let searchEpisode = (val) => {
+			this.setState({ query: val }, () => console.log(this.state));
+		};
 		return (
 			<div className="catalog-container">
 				<div className="catalog-interaction-menu">
 					<div className="catalog-interaction">
-						<strong>Episodes</strong>
+						<input
+							className="episode-search"
+							type="text"
+							placeholder="Search for the episode number here"
+							onChange={(e) => searchEpisode(e.target.value)}
+						/>
 					</div>
 				</div>
 				<div className="catalog">
-					{this.state.loaded ? renderVideos(this.state.episodes) : ""}
+					{this.state.loaded
+						? renderVideos(
+								this.state.episodes.filter((ep) => {
+									let episode = ep.episode;
+									return episode.toString().match(this.state.query);
+								})
+						  )
+						: ""}
 				</div>
 			</div>
 		);
