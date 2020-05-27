@@ -79,7 +79,7 @@ class Catalog extends Component {
 						<input
 							className="episode-search"
 							type="text"
-							placeholder="Search for the episode number here"
+							placeholder="Search for the episode number here..."
 							onChange={(e) => searchEpisode(e.target.value)}
 						/>
 					</div>

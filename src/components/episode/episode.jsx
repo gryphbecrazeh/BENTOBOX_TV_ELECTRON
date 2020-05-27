@@ -15,6 +15,7 @@ import {
 import { Link, useHistory } from "react-router-dom";
 import Store from "../../data/store";
 import VideoScraper from "../../inc/videoScraper";
+// import VideoPlayer from "../videoPlayer/videoPlayer";
 
 let Episode = () => {
 	const [video, setVideo] = useState({});
@@ -152,7 +153,6 @@ let Episode = () => {
 								width="100%"
 								height="auto"
 								controls
-								autoPlay
 								onEnded={() => {
 									renderNextEpisode();
 									history.push(`/e/${nextEpisode.name}/${nextEpisode.episode}`);
@@ -160,6 +160,7 @@ let Episode = () => {
 							>
 								<source src={`${video.video}`}></source>
 							</video>
+							{/* <VideoPlayer episode={video} /> */}
 						</CardBody>
 						<CardFooter>
 							<CardTitle>{`${video.name} ${video.episode}`}</CardTitle>
@@ -241,6 +242,7 @@ let Episode = () => {
 		return (
 			<div className="episode-container">
 				<div className="column-left"></div>
+
 				<div className="column-center">
 					<Card
 						inverse
@@ -260,6 +262,7 @@ let Episode = () => {
 						</CardBody>
 					</Card>
 				</div>
+
 				<div className="column-right"></div>
 			</div>
 		);
