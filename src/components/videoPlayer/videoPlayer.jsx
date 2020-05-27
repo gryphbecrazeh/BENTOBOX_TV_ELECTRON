@@ -10,12 +10,12 @@ let VideoPlayer = (props) => {
 
 	return (
 		<div id="videoPlayer">
-			<video ref={videoRef} width="100%" height="auto">
+			<video controls autoplay ref={videoRef} width="100%" height="auto">
 				<source src={`${episode.video}`}></source>
 			</video>
 			<ul id="video-controls" className="controls">
 				<li>
-					<div className="vp-button" id="play-button" onClick={playPauseVideo}>
+					<div className="vp-button" id="play-button">
 						{videoState.paused ? "Play" : "Pause"}
 					</div>
 				</li>

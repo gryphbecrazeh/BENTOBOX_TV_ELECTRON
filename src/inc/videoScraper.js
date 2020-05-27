@@ -28,7 +28,8 @@ class VideoScraper {
 					await page.goto(url);
 					await browser.close();
 					return await videoUrl;
-				});
+				})
+				.catch((err) => console.log(err));
 		};
 	}
 }
