@@ -222,7 +222,11 @@ let Episode = () => {
 					}}
 				>
 					<CardBody>
-						<VideoPlayer episode={video} />
+						<VideoPlayer
+							episode={video}
+							nextEpisode={video.nextEpisode}
+							changeEpisode={changeToNextEpisode}
+						/>
 					</CardBody>
 					<CardFooter>
 						<CardTitle>{`${video.name} ${video.episode}`}</CardTitle>

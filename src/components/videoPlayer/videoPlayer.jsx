@@ -4,32 +4,35 @@ let VideoPlayer = (props) => {
 	let [videoState, setVideoState] = useState({
 		paused: true,
 	});
+	let [displayNextEpisode, setDisplayNextEpisode] = useState(false);
 	const videoRef = useRef(null);
-	let { current } = videoRef;
-	let { episode } = props;
-
+	let { episode, nextEpisode, changeEpisode } = props;
+	let showNextEpisode = () => {
+		let { currentTime, duration } = videoRef.current;
+		if (currentTime >= duration - 60 * 5 && displayNextEpisode === false) {
+			setDisplayNextEpisode(true);
+		}
+	};
 	return (
-		<div id="videoPlayer">
-			<video controls autoplay ref={videoRef} width="100%" height="auto">
+		<div id="video-player">
+			<video
+				controls
+				autoplay
+				ref={videoRef}
+				width="100%"
+				height="auto"
+				onTimeUpdate={showNextEpisode}
+				onLoadedMetadata={() => videoRef.current.play()}
+				onEnded={changeEpisode}
+			>
 				<source src={`${episode.video}`}></source>
 			</video>
-			<ul id="video-controls" className="controls">
-				<li>
-					<div className="vp-button" id="play-button">
-						{videoState.paused ? "Play" : "Pause"}
-					</div>
-				</li>
-				<li className="progress">
-					<progress id="progress" value="0" min="0">
-						<span id="progress-bar"></span>
-					</progress>
-				</li>
-				<li>
-					<div className="vp-button" id="fullscreen-button">
-						Full
-					</div>
-				</li>
-			</ul>
+			<div className="vp-next">Next</div>
+			<div
+				className="nextEpisodePreview"
+				onClick={changeEpisode}
+				style={displayNextEpisode ? { right: ".5em" } : {}}
+			>{`${nextEpisode.name} ${nextEpisode.episode}`}</div>
 		</div>
 	);
 };
