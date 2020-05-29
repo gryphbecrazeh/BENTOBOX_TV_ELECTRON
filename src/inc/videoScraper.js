@@ -4,9 +4,9 @@ class VideoScraper {
 			let videoUrl;
 			const puppeteer = window.require("puppeteer");
 			const chromium_path =
-				"node_modules/puppeteer/.local-chromium/linux-737027/chrome-linux/chrome";
-			// const chromium = require("chromium");
-			// console.log("launching puppeteer");
+				process.platform === "linux"
+					? "node_modules/puppeteer/.local-chromium/linux-737027/chrome-linux/chrome"
+					: "node_modules/puppeteer/.local-chromium/win64-756035/chrome-win/chrome.exe";
 			return puppeteer
 				.launch({
 					headless: true,
