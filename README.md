@@ -7,6 +7,7 @@
 - Develop Login/Register page and components
 - Develop dashboard
 - Develop series catalog page to show all series
+- Set counter for reload, if it exceeds a couple reload attempts, display an error instead of continuing to attempt to pull
 
 ## Bugs
 

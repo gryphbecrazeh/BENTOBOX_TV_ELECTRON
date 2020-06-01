@@ -43,7 +43,7 @@ let Episode = () => {
 	let changeToNextEpisode = () => {
 		console.log("Navigating to next episode...");
 		history.push(`/e/${nextEpisode.name}/${nextEpisode.episode}`);
-		setDefaultState(nextEpisode);
+		return setDefaultState(nextEpisode);
 	};
 
 	// Run once
@@ -124,6 +124,8 @@ let Episode = () => {
 							return setLoaded(true);
 						} else {
 							console.log("error, video link not retrieved");
+							// If it fails to load, set the default state to trigger a reload, and use the original state of the video
+							return setDefaultState(currentEpisode);
 						}
 					})
 					.catch((err) => console.log(err));
@@ -153,8 +155,8 @@ let Episode = () => {
 						updatedEpisodes[nextEpisodeIndex] = updatedNextEpisode;
 						store.set("episodes", updatedEpisodes);
 						console.log("Next episode loaded...");
-						setVideo(updatedEpisode);
-						return setNextVideoLoaded(true);
+						setNextVideoLoaded(true);
+						return setVideo(updatedEpisode);
 					})
 					.catch((err) => {
 						console.log("can't get next episode", err);
