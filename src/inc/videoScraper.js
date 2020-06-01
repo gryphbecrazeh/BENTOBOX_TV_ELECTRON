@@ -3,14 +3,12 @@ class VideoScraper {
 		this.getVideo = async (url) => {
 			let videoUrl;
 			const puppeteer = window.require("puppeteer");
-			const chromium_path =
-				process.platform === "linux"
-					? "node_modules/puppeteer/.local-chromium/linux-737027/chrome-linux/chrome"
-					: "node_modules/puppeteer/.local-chromium/win64-756035/chrome-win/chrome.exe";
+			const chromium = require("chromium");
+
 			return puppeteer
 				.launch({
 					headless: true,
-					executablePath: chromium_path,
+					executablePath: chromium.path,
 					args: ["--no-sandbox", "--disable-setuid-sandbox"],
 				})
 				.then(async (browser) => {

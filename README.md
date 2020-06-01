@@ -12,3 +12,5 @@
 - Sometimes nextVideoLoaded doesn't get switched or the ternary operator doesn't pick it up
 - Loading page has weird html animation
 - Videos scrape twice
+- Chromium Path doesn't work the first time an attempted episode
+- Changing to the next episode sometimes glitches out and loads the previous episode, might be an issue with async reloading

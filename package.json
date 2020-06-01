@@ -19,8 +19,8 @@
 		"cross-env": "^7.0.2",
 		"electron-is-dev": "^1.2.0",
 		"node-sass": "^4.14.1",
-		"puppeteer": "^3.1.0",
-		"puppeteer-core": "^3.0.1",
+		"puppeteer": "^3.2.0",
+		"puppeteer-core": "^3.2.0",
 		"react": "^16.13.1",
 		"react-dom": "^16.13.1",
 		"react-icons": "^3.10.0",
@@ -59,7 +59,7 @@
 	"devDependencies": {
 		"concurrently": "^5.1.0",
 		"electron": "^8.3.0",
-		"electron-builder": "^22.5.1",
+		"electron-builder": "^22.7.0",
 		"wait-on": "^4.0.2"
 	}
 }
