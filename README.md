@@ -14,7 +14,7 @@
 
 - Loading page has weird html animation
   <!-- - Videos scrape twice -->
-  <!-- - Chromium Path doesn't work the first time an attempted episode -->
-  <!-- - Changing to the next episode sometimes glitches out and loads the previous episode, might be an issue with async reloading -->
-  <!-- - Adding a return statement to useEffect and navigating back to the catalog page breaks the program -->
-    <!-- -Adding return specifically to the asynchronous calls causes it to break, adding it to the state updates helps keep the program from running multiple times -->
+  - Chromium Path doesn't work the first time an attempted episode
+    - Changing to the next episode sometimes glitches out and loads the previous episode, might be an issue with async reloading
+      <!-- - Adding a return statement to useEffect and navigating back to the catalog page breaks the program -->
+        <!-- -Adding return specifically to the asynchronous calls causes it to break, adding it to the state updates helps keep the program from running multiple times -->
