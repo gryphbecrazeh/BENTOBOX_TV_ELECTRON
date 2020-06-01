@@ -28,7 +28,6 @@ import VideoPlayer from "../videoPlayer/videoPlayer";
 
 let Episode = () => {
 	const [video, setVideo] = useState({});
-	// console.log(video);
 	const [loaded, setLoaded] = useState(false);
 	const [nextVideoLoaded, setNextVideoLoaded] = useState(false);
 	const { show, episode } = useParams();
@@ -37,9 +36,9 @@ let Episode = () => {
 	let history = useHistory();
 
 	let setDefaultState = (next) => {
-		setLoaded(next.video ? true : false);
-		setNextVideoLoaded(false);
 		setVideo(next);
+		setNextVideoLoaded(false);
+		return setLoaded(false);
 	};
 	let changeToNextEpisode = () => {
 		console.log("Navigating to next episode...");
@@ -49,66 +48,80 @@ let Episode = () => {
 
 	// Run once
 	useEffect(() => {
+		// Innitialize Varaibles
+		let scraper = new VideoScraper();
+		let store = new Store({
+			configName: "user-catalog",
+		});
+		// Get EPISODES from Store
+		let episodes = store.get("episodes").sort((a, b) => a.episode - b.episode);
+		// Instantiate UPDATED episodes list
+		let updatedEpisodes = [...episodes];
+
+		// Get Current Episode
+		//
+		// Episode index uses array numbering, so episode 1 is 0
+		// reduce actual episode number to determine episode
+		//
+		let episodeIndex = Number(episode) - 1;
+		const currentEpisode = updatedEpisodes[episodeIndex];
+		// Get Next Episode
+		const nextEpisodeIndex = episodeIndex + 1;
+		const nextEpisode = updatedEpisodes[nextEpisodeIndex];
+
+		// Create mutable copies of the original variables, these will be what is used and referenced in the rest of this effect
+		let updatedEpisode = { ...currentEpisode };
+		let updatedNextEpisode;
+
+		// If next episode exists in the array, duplicate it, this will be the working variable from here on
+		if (nextEpisode) {
+			updatedNextEpisode = { ...nextEpisode };
+			// Update the current episodes next episode link
+			updatedEpisode.nextEpisode = updatedNextEpisode;
+		}
+		// Check if there is a next episode and the current episode has the next episode property
+		if (nextEpisode && !updatedEpisode.nextEpisode) {
+			console.log("Next episode exists...");
+			updatedEpisode = {
+				...updatedEpisode,
+				nextEpisode: {
+					...nextEpisode,
+				},
+			};
+			return setVideo(updatedEpisode);
+		}
+		// Check if the episodes videos have been loaded
+		if (!loaded && updatedEpisode.video) {
+			console.log("Video is already loaded...");
+			return setLoaded(true);
+		}
+
 		// check if the next episode has been loaded
-		if (nextEpisode && nextEpisode.video) {
-			setNextVideoLoaded(true);
+		if (!nextVideoLoaded && updatedNextEpisode && updatedNextEpisode.video) {
+			console.log("Next Episode is already loaded...");
+			return setNextVideoLoaded(true);
 		}
-		if (video.video) {
-			setLoaded(true);
-		}
+
 		// If the video file hasn't been scraped, scrape it
 		if (!loaded || !nextVideoLoaded) {
-			console.log("loading episode...");
-			let scraper = new VideoScraper();
-			let store = new Store({
-				configName: "user-catalog",
-			});
-			// Get EPISODES from Store
-			const episodes = store
-				.get("episodes")
-				.sort((a, b) => a.episode - b.episode);
-			// Instantiate UPDATED episodes list
-			const updatedEpisodes = [...episodes];
-
-			// Get Current Episode
-			//
-			// Episode index uses array numbering, so episode 1 is 0
-			// reduce actual episode number to determine episode
-			//
-			let episodeIndex = Number(episode) - 1;
-			let currentEpisode = updatedEpisodes[episodeIndex];
-			let updatedEpisode = { ...currentEpisode };
-			// Get Next Episode
-			let nextEpisodeIndex = episodeIndex + 1;
-			let nextEpisode = updatedEpisodes[nextEpisodeIndex];
-			let updatedNextEpisode;
-
-			if (nextEpisode) {
-				updatedNextEpisode = { ...nextEpisode };
-				// Update the current episodes next episode link
-				updatedEpisode.nextEpisode = updatedNextEpisode;
-			}
-
 			// Load the video file for the current video
 			if (!loaded) {
 				scraper
-					.getVideo(currentEpisode.link)
+					.getVideo(updatedEpisode.link)
 					.then((currentVideoLink) => {
 						if (currentVideoLink) {
-							console.log(currentVideoLink);
-							// Update the current episodes video
+							// Add the video property to the current episode
 							updatedEpisode = {
 								...updatedEpisode,
 								video: currentVideoLink,
 							};
-							console.log("updated episode", updatedEpisode);
 							// update the current episodes array to update the current episode
 							updatedEpisodes[episodeIndex] = updatedEpisode;
 							// Update the state to play the video immediately
 							// Store the updated Episodes in the store
 							store.set("episodes", updatedEpisodes);
 							setVideo(updatedEpisode);
-							setLoaded(true);
+							return setLoaded(true);
 						} else {
 							console.log("error, video link not retrieved");
 						}
@@ -116,28 +129,32 @@ let Episode = () => {
 					.catch((err) => console.log(err));
 			}
 
-			// If the next episode video file hasn't been retrieved, retrieve it
-			if (loaded && nextEpisode && !nextVideoLoaded) {
+			// If the next episode video file hasn't been retrieved, retrieve it, load this AFTER the video has been loaded
+			if (loaded && updatedNextEpisode && !nextVideoLoaded) {
 				// Check if the nextEpisode from the array is not null
 				console.log("loading next episode...");
 
 				scraper
-					.getVideo(nextEpisode.link)
+					.getVideo(updatedNextEpisode.link)
 					.then((nextEpisodeLink) => {
 						// Add the next episode link to the next episode
 						updatedNextEpisode = {
 							...updatedNextEpisode,
-							nextEpisodeLink,
+							video: nextEpisodeLink,
 						};
 						// Add the updated next episode to the current episodes next episode object
-						updatedEpisode.nextEpisode = updatedNextEpisode;
+						updatedEpisode = {
+							...updatedEpisode,
+							nextEpisode: { ...updatedNextEpisode },
+						};
+
 						// update the updated episodes array with the updated episodes
 						updatedEpisodes[episodeIndex] = updatedEpisode;
 						updatedEpisodes[nextEpisodeIndex] = updatedNextEpisode;
 						store.set("episodes", updatedEpisodes);
-						setVideo(updatedEpisode);
-						setNextVideoLoaded(true);
 						console.log("Next episode loaded...");
+						setVideo(updatedEpisode);
+						return setNextVideoLoaded(true);
 					})
 					.catch((err) => {
 						console.log("can't get next episode", err);
@@ -147,10 +164,12 @@ let Episode = () => {
 	});
 
 	let renderNextEpisode = () => {
+		if (!nextVideoLoaded) {
+			return <div>Loading...</div>;
+		}
 		if (!nextEpisode) {
 			return <div>No Further Episodes...</div>;
 		}
-
 		return (
 			<Card
 				inverse
@@ -210,6 +229,7 @@ let Episode = () => {
 			</div>
 		);
 	}
+
 	return (
 		<div className="episode-container">
 			<div className="column-left"></div>
@@ -224,7 +244,7 @@ let Episode = () => {
 					<CardBody>
 						<VideoPlayer
 							episode={video}
-							nextEpisode={video.nextEpisode}
+							nextEpisode={nextEpisode ? nextEpisode : 0}
 							changeEpisode={changeToNextEpisode}
 						/>
 					</CardBody>

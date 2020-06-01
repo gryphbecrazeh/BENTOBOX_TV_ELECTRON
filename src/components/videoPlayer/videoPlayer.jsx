@@ -8,9 +8,25 @@ let VideoPlayer = (props) => {
 	const videoRef = useRef(null);
 	let { episode, nextEpisode, changeEpisode } = props;
 	let showNextEpisode = () => {
-		let { currentTime, duration } = videoRef.current;
-		if (currentTime >= duration - 60 * 5 && displayNextEpisode === false) {
-			setDisplayNextEpisode(true);
+		if (nextEpisode) {
+			let { currentTime, duration } = videoRef.current;
+			if (currentTime >= duration - 60 * 5 && displayNextEpisode === false) {
+				setDisplayNextEpisode(true);
+			}
+		}
+	};
+	let renderNextEpisodeLink = () => {
+		if (nextEpisode) {
+			return (
+				<span>
+					<div className="vp-next">Next</div>
+					<div
+						className="nextEpisodePreview"
+						onClick={changeEpisode}
+						style={displayNextEpisode ? { right: ".5em" } : {}}
+					>{`${nextEpisode.name} ${nextEpisode.episode}`}</div>
+				</span>
+			);
 		}
 	};
 	return (
@@ -27,12 +43,7 @@ let VideoPlayer = (props) => {
 			>
 				<source src={`${episode.video}`}></source>
 			</video>
-			<div className="vp-next">Next</div>
-			<div
-				className="nextEpisodePreview"
-				onClick={changeEpisode}
-				style={displayNextEpisode ? { right: ".5em" } : {}}
-			>{`${nextEpisode.name} ${nextEpisode.episode}`}</div>
+			{renderNextEpisodeLink()}
 		</div>
 	);
 };
