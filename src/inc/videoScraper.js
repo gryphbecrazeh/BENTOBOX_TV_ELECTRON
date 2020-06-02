@@ -3,11 +3,13 @@ class VideoScraper {
 		this.getVideo = async (url) => {
 			let videoUrl;
 			const puppeteer = window.require("puppeteer");
+			const chromium = window.require("chromium");
+			console.log(chromium.path);
 
 			return puppeteer
 				.launch({
 					headless: true,
-					// executablePath: chromium.path,
+					executablePath: chromium.path,
 					// args: ["--no-sandbox", "--disable-setuid-sandbox"],
 				})
 				.then(async (browser) => {

@@ -125,7 +125,7 @@ let Episode = () => {
 						} else {
 							console.log("error, video link not retrieved");
 							// If it fails to load, set the default state to trigger a reload, and use the original state of the video
-							return setDefaultState(currentEpisode);
+							// return setDefaultState(currentEpisode);
 						}
 					})
 					.catch((err) => console.log(err));
