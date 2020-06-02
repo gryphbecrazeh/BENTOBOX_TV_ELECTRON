@@ -6,10 +6,11 @@ class VideoScraper {
 			const chromium = window.require("chromium");
 			console.log(chromium.path);
 
+			let chromiumPath = chromium.path.replace(/app.asar/, "app.asar.unpacked");
 			return puppeteer
 				.launch({
 					headless: true,
-					executablePath: chromium.path,
+					executablePath: chromiumPath,
 					// args: ["--no-sandbox", "--disable-setuid-sandbox"],
 				})
 				.then(async (browser) => {
