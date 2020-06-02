@@ -28,6 +28,7 @@ function createWindow() {
 			// webSecurity: false,
 			preload: __dirname + "/preload.js",
 		},
+		allowRendererProcessReuse: true,
 	});
 	// Hide Menu ( File, Edit, Window, etc...)
 	win.removeMenu();
@@ -45,7 +46,6 @@ function createWindow() {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(createWindow);
-
 // Quit when all windows are closed.
 app.on("window-all-closed", () => {
 	// On macOS it is common for applications and their menu bar
