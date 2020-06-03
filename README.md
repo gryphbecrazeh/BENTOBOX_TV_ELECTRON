@@ -9,7 +9,7 @@
 - Develop series catalog page to show all series
 - Set counter for reload, if it exceeds a couple reload attempts, display an error instead of continuing to attempt to pull
 - Discover and set timeout for when the cdn episode link has expired
-- ### Features
+- ### Additional Features
 - Add download button, and add file system check for downloaded episodes to stream those instead of scraping
 - Add download series button where it goes through every episode in the series that is not already downloaded, and downloads them
 - Use Canvas and media api to generate gifs / take screenshots

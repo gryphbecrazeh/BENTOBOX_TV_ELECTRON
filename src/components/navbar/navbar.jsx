@@ -21,7 +21,7 @@ let NavBar = () => {
 			<NavbarBrand>
 				<Link to="/">Bentobox TV</Link>
 			</NavbarBrand>
-			<NavbarText>Stream Anime with a Proxy</NavbarText>
+			<NavbarText>Stream Anime in peace</NavbarText>
 			<NavbarToggler onClick={toggle} />
 			<Collapse isOpen={isOpen} navbar>
 				<Nav navbar>
