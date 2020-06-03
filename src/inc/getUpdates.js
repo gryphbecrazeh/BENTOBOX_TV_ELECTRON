@@ -9,15 +9,30 @@ const getUpdates = () => {
 			crossdomain: true,
 		})
 		.then((res) => {
-			let episodes = res.data.videos;
-			episodes.forEach((episode) => (episode.video = null));
 			const store = new Store({
 				configName: "user-catalog",
 				defaults: {
 					episodes: [],
 				},
 			});
-			store.set("episodes", res.data.videos);
+
+			let newEpisodes = res.data.videos;
+			let oldEpisodes = store.get("episodes");
+			newEpisodes.forEach((newEpisode) => {
+				newEpisode.video = null;
+				let index = oldEpisodes.findIndex(
+					(oldEpisode) => newEpisode.episode == oldEpisode.episode
+				);
+				if (index >= 0) {
+					oldEpisodes[index] = {
+						...newEpisode,
+						...oldEpisodes[index],
+					};
+				} else {
+					oldEpisodes.push(newEpisode);
+				}
+			});
+			store.set("episodes", oldEpisodes);
 		})
 		.catch((err) => console.log(err));
 };

@@ -32,6 +32,10 @@ class Catalog extends Component {
 	}
 
 	render() {
+		let searchEpisode = (val) => {
+			this.setState({ query: val }, () => console.log(this.state));
+		};
+
 		let sortVideos = (array, sort) => {
 			return array.sort((a, b) => {
 				if (sort) {
@@ -42,9 +46,9 @@ class Catalog extends Component {
 			});
 		};
 		let renderVideos = (array) => {
+			// Return all the episodes, sorted in the order based on the state
 			return sortVideos(array, this.state.sort).map(
 				(episode, index, episodes) => {
-					let nextEpisode = episodes[(index += 1)];
 					return (
 						<Card
 							key={episode._id}
@@ -68,9 +72,6 @@ class Catalog extends Component {
 					);
 				}
 			);
-		};
-		let searchEpisode = (val) => {
-			this.setState({ query: val }, () => console.log(this.state));
 		};
 		return (
 			<div className="catalog-container">

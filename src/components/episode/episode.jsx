@@ -93,6 +93,7 @@ let Episode = () => {
 		// Check if the episodes videos have been loaded
 		if (!loaded && updatedEpisode.video) {
 			console.log("Video is already loaded...");
+			setVideo(updatedEpisode);
 			return setLoaded(true);
 		}
 
@@ -231,7 +232,7 @@ let Episode = () => {
 			</div>
 		);
 	}
-
+	console.log(video);
 	return (
 		<div className="episode-container">
 			<div className="column-left"></div>

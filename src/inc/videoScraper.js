@@ -3,20 +3,19 @@ class VideoScraper {
 		this.getVideo = async (url) => {
 			let videoUrl;
 			const puppeteer = window.require("puppeteer");
+			// Bring in a new instance of chromium to run outside of the electron one
 			const chromium = window.require("chromium");
-			console.log(chromium.path);
 
 			let chromiumPath = chromium.path.replace(/app.asar/, "app.asar.unpacked");
 			return puppeteer
 				.launch({
 					headless: true,
 					executablePath: chromiumPath,
-					// args: ["--no-sandbox", "--disable-setuid-sandbox"],
 				})
 				.then(async (browser) => {
-					// console.log("puppeteerlaunched");
 					const page = await browser.newPage();
 					page.on("response", (response) => {
+						// Several video files appear when being scraped, only grab the first one
 						if (videoUrl == null) {
 							let resUrl = response["_url"];
 							let status = response["_status"];
