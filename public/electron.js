@@ -36,7 +36,7 @@ function createWindow() {
 	// Hide Menu ( File, Edit, Window, etc...)
 	win.removeMenu();
 	// Load dev tools
-	win.webContents.openDevTools();
+	if (isDev) win.webContents.openDevTools();
 	// and load the index.html of the app.
 	win.loadURL(
 		isDev
