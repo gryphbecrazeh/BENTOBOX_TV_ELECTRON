@@ -376,3 +376,48 @@ form {
 		transform: rotate(2deg);
 	}
 }
+#video-player {
+	position: relative;
+	margin: 0;
+	padding: 0;
+	&:hover .vp-controls {
+		transform: translateY(0);
+	}
+	.vp-controls {
+		display: flex;
+		position: absolute;
+		bottom: 0;
+		width: 100%;
+		flex-wrap: wrap;
+		background-color: rgba(0, 0, 0, 0.7);
+		opacity: 1;
+		transform: translateY(100%) translateY(-5px);
+		transition: transform 200ms ease-in-out;
+		.buttons {
+			button {
+				background: none;
+				border: 0;
+				outline: 0;
+				cursor: pointer;
+				color: white;
+				padding: 0.5em;
+			}
+		}
+		.orange-bar,
+		#progress {
+			height: 0.5em;
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			.orange-juice {
+				height: 0.5em;
+				background-color: red;
+			}
+		}
+		#progress {
+			z-index: 999;
+			background-color: none;
+		}
+	}
+}
