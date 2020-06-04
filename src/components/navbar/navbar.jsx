@@ -1,6 +1,16 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
+	FaStar,
+	FaDownload,
+	FaPhotoVideo,
+	FaTimesCircle,
+	FaWindowMaximize,
+	FaWindowRestore,
+	FaWindowMinimize,
+} from "react-icons/fa";
+
+import {
 	Collapse,
 	Navbar,
 	NavbarToggler,
@@ -20,11 +30,48 @@ let NavBar = () => {
 
 	return (
 		<Navbar expand="md">
+			{/* <NavbarText>Stream Anime in peace</NavbarText> */}
+			<NavbarToggler onClick={toggle} />
 			<NavbarBrand>
 				<Link to="/">Bentobox TV</Link>
 			</NavbarBrand>
-			<NavbarText>Stream Anime in peace</NavbarText>
-			<NavbarToggler onClick={toggle} />
+
+			<Nav>
+				<div className="window-controls">
+					<NavItem>
+						<NavLink>
+							<Link onClick={() => remote.getCurrentWindow().minimize()}>
+								<FaWindowMinimize />
+							</Link>
+						</NavLink>
+					</NavItem>
+
+					<NavItem>
+						<NavLink>
+							<Link
+								onClick={() => {
+									let {
+										isMaximized,
+										restore,
+										maximize,
+									} = remote.getCurrentWindow();
+									return isMaximized() ? restore() : maximize();
+								}}
+							>
+								<FaWindowMaximize />
+							</Link>
+						</NavLink>
+					</NavItem>
+
+					<NavItem>
+						<NavLink>
+							<Link onClick={() => remote.getCurrentWindow().close()}>
+								<FaTimesCircle />
+							</Link>
+						</NavLink>
+					</NavItem>
+				</div>
+			</Nav>
 			<Collapse isOpen={isOpen} navbar>
 				<Nav navbar>
 					<NavItem>
@@ -35,21 +82,6 @@ let NavBar = () => {
 					<NavItem>
 						<NavLink>
 							<Link to="/user">Login / Register</Link>
-						</NavLink>
-					</NavItem>
-					<NavItem>
-						<NavLink>
-							<Link onClick={() => remote.getCurrentWindow().maximize()}>
-								Max
-							</Link>
-						</NavLink>
-					</NavItem>
-
-					<NavItem>
-						<NavLink>
-							<Link onClick={() => remote.getCurrentWindow().close()}>
-								Close
-							</Link>
 						</NavLink>
 					</NavItem>
 				</Nav>

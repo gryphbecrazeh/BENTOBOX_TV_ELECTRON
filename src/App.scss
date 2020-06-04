@@ -82,8 +82,24 @@ header a {
 // 		text-transform: uppercase;
 // 	}
 // }
+body {
+	overflow: hidden !important;
+}
+.window-controls {
+	position: fixed;
+	right: 0;
+	display: flex;
+	top: 0.5em;
+}
 .navbar {
 	background-color: $darkColor !important;
+	position: sticky !important;
+	top: 0;
+	-webkit-app-region: drag;
+	a,
+	button {
+		-webkit-app-region: no-drag;
+	}
 }
 
 .navbar-toggler-icon {

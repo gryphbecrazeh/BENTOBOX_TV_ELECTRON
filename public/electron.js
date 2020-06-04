@@ -8,8 +8,8 @@ const store = new Store({
 	configName: "user-preferences",
 	defaults: {
 		windowBounds: {
-			width: 800,
-			height: 600,
+			width: 900,
+			height: 800,
 			fullscreen: false,
 		},
 	},
@@ -22,6 +22,8 @@ function createWindow() {
 	const win = new BrowserWindow({
 		width: width,
 		height: height,
+		minWidth: 550,
+		minHeight: 500,
 		fullscreen: false,
 		frame: false,
 		webPreferences: {
