@@ -12,6 +12,8 @@ import {
 } from "reactstrap";
 
 let NavBar = () => {
+	const electron = window.require("electron");
+	const remote = electron.remote;
 	const [isOpen, setIsOpen] = useState(false);
 
 	const toggle = () => setIsOpen(!isOpen);
@@ -33,6 +35,21 @@ let NavBar = () => {
 					<NavItem>
 						<NavLink>
 							<Link to="/user">Login / Register</Link>
+						</NavLink>
+					</NavItem>
+					<NavItem>
+						<NavLink>
+							<Link onClick={() => remote.getCurrentWindow().maximize()}>
+								Max
+							</Link>
+						</NavLink>
+					</NavItem>
+
+					<NavItem>
+						<NavLink>
+							<Link onClick={() => remote.getCurrentWindow().close()}>
+								Close
+							</Link>
 						</NavLink>
 					</NavItem>
 				</Nav>

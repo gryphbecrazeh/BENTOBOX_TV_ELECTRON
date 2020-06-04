@@ -72,6 +72,7 @@ let VideoPlayer = (props) => {
 				onTimeUpdate={handleTimeUpdate}
 				onLoadedMetadata={() => videoRef.current.play()}
 				onEnded={changeEpisode}
+				onClick={handlePlayPause}
 			>
 				<source src={`${episode.video}`}></source>
 			</video>
