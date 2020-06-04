@@ -53,7 +53,7 @@ class Catalog extends Component {
 						<Card
 							key={episode._id}
 							inverse
-							style={{ backgroundColor: "#333", borderColor: "#333" }}
+							// style={{ backgroundColor: "#333", borderColor: "#333" }}
 						>
 							<CardHeader>
 								<Link to={`/e/${episode.name}/${episode.episode}`}>

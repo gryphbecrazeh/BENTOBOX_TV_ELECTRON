@@ -1,10 +1,8 @@
-import React, { useState, useRef, useEffect } from "react";
-
+import React, { useState, useRef } from "react";
+import { FaPlay, FaPause, FaExpand } from "react-icons/fa";
 let VideoPlayer = (props) => {
-	let [videoState, setVideoState] = useState({
-		paused: true,
-	});
 	let [displayNextEpisode, setDisplayNextEpisode] = useState(false);
+	let [videoPaused, setVideoPaused] = useState(true);
 	const videoRef = useRef(null);
 	let { episode, nextEpisode, changeEpisode } = props;
 	let showNextEpisode = () => {
@@ -27,10 +25,16 @@ let VideoPlayer = (props) => {
 
 		showNextEpisode();
 	};
+	let handleAutoplay = () => {
+		let video = document.querySelector("video");
+		video.play();
+		return setVideoPaused(false);
+	};
 	let handlePlayPause = () => {
 		let player = document.querySelector("#video-player");
 		let video = player.querySelector("video");
-		return video.paused ? video.play() : video.pause();
+		video.paused ? video.play() : video.pause();
+		return setVideoPaused(!videoPaused);
 	};
 	let handleFullScreen = () => {
 		let player = document.querySelector("#video-player");
@@ -70,7 +74,7 @@ let VideoPlayer = (props) => {
 				width="100%"
 				height="auto"
 				onTimeUpdate={handleTimeUpdate}
-				onLoadedMetadata={() => videoRef.current.play()}
+				onLoadedMetadata={handleAutoplay}
 				onEnded={changeEpisode}
 				onClick={handlePlayPause}
 			>
@@ -90,10 +94,10 @@ let VideoPlayer = (props) => {
 				</div>
 				<div className="buttons">
 					<button id="play-pause" onClick={handlePlayPause}>
-						P
+						{videoPaused ? <FaPlay /> : <FaPause />}
 					</button>
 					<button id="fullscreen" onClick={handleFullScreen}>
-						F
+						<FaExpand />
 					</button>
 				</div>
 			</div>

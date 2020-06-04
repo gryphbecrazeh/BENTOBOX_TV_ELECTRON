@@ -176,10 +176,12 @@ let Episode = () => {
 		return (
 			<Card
 				inverse
-				style={{
-					backgroundColor: "#333",
-					border: "#333",
-				}}
+				style={
+					{
+						// backgroundColor: "#333",
+						// border: "#333",
+					}
+				}
 			>
 				<CardHeader>
 					<CardTitle

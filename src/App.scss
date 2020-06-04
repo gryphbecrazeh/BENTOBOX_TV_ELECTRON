@@ -42,7 +42,7 @@ $offset-position: 1000px;
 }
 
 body {
-	background-color: #111 !important;
+	background-color: $lightColor !important;
 	.catalog-container::after {
 		background-color: white;
 		position: absolute;
@@ -143,6 +143,7 @@ body {
 		grid-template-columns: 1fr;
 		overflow: auto;
 		max-height: 84vh;
+		padding: 0.5em;
 		@media screen and (min-width: 600px) {
 			grid-template-columns: repeat(2, 1fr);
 		}
@@ -466,4 +467,29 @@ input[type="range"]:focus {
 
 input[type="range"]:focus::-webkit-slider-runnable-track {
 	background: transparent;
+}
+
+.card {
+	background-color: $darkColor !important;
+	border-color: $darkColor !important;
+}
+
+/* width */
+::-webkit-scrollbar {
+	width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: $darkColor;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: $lightColor;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: $hilightColor;
 }
