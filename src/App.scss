@@ -1,11 +1,20 @@
+@import url("https://fonts.googleapis.com/css2?family=Nova+Square&display=swap");
+
 // Variables
 $pink: #f45b69;
 $white: #f6e8ea;
 $dark-grey: #22181c;
 $dark-red: #5a0001;
 $bright-red: #fd151b;
+$darkColor: #d22;
+// $lightColor: #fff;
+$lightColor: #222;
+// $lightColor: $dark-grey;
+// $hilightColor: #f99;
+$hilightColor: #fff;
 
 $offset-position: 1000px;
+
 // Animations
 @keyframes slideUp {
 	0% {
@@ -73,6 +82,13 @@ header a {
 // 		text-transform: uppercase;
 // 	}
 // }
+.navbar {
+	background-color: $darkColor !important;
+}
+
+.navbar-toggler-icon {
+	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 0, 0, 0.5%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
 
 .catalog-container {
 	padding: 1em;
@@ -109,7 +125,8 @@ header a {
 		display: grid;
 		grid-gap: 1em;
 		grid-template-columns: 1fr;
-
+		overflow: auto;
+		max-height: 84vh;
 		@media screen and (min-width: 600px) {
 			grid-template-columns: repeat(2, 1fr);
 		}
@@ -139,8 +156,9 @@ header a {
 }
 
 a {
-	color: inherit;
+	color: white !important;
 	text-decoration: none;
+	font-weight: bold;
 }
 
 .episode-container {
@@ -188,5 +206,173 @@ a {
 	.vp-next:hover + .nextEpisodePreview,
 	.nextEpisodePreview:hover {
 		right: 0.5em;
+	}
+}
+
+.title {
+	font-family: "Nova Square", cursive;
+	font-size: 3em;
+	// font-weight: bolder;
+	color: #f22;
+	position: relative;
+}
+.underline {
+	height: 5px;
+	width: 0;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	transition: width 250ms ease-in-out;
+	transition-delay: 250ms;
+}
+#wrapper {
+	position: relative;
+	width: 100%;
+	min-height: 100vh;
+	overflow: hidden;
+}
+.layer {
+	position: absolute;
+	width: 100vw;
+	min-height: 100vh;
+
+	overflow: hidden;
+	transition: all 250ms ease-in-out;
+}
+input {
+	border: none;
+	background-image: none;
+	background-color: transparent;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+}
+
+.layer .content-wrap {
+	position: absolute;
+	width: 100vw;
+	/*   min-height: 55vw; */
+}
+.content-body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+	transition: opacity 250ms ease-in-out;
+}
+
+.top .title {
+	text-align: left;
+	position: absolute;
+	top: 70vh;
+	left: 2em;
+	transform: rotate(30deg);
+}
+.bottom .title {
+	color: $lightColor;
+	text-align: right;
+	position: absolute;
+	top: 20vh;
+	right: 2em;
+	transform: rotate(30deg);
+}
+
+.skewed .top {
+	transform: skew(-130deg);
+	margin-left: -1000px;
+	width: calc(50vw + 1000px);
+	.content-wrap {
+		transform: skew(130deg);
+		margin-left: 1000px;
+		transition: all 250ms ease-in-out;
+	}
+}
+
+form {
+	display: flex;
+	flex-direction: column;
+	opacity: 0;
+	max-width: 22vw;
+	input,
+	.button {
+		padding: 0.5em;
+		margin: 0.5em;
+		width: 100%;
+		box-sizing: border-box;
+	}
+	.button {
+		text-align: center;
+		border-radius: 5px;
+		border-width: 2px;
+		border-style: solid;
+		font-weight: bold;
+		text-transform: uppercase;
+		&:hover {
+			cursor: pointer;
+		}
+	}
+	.button.login {
+		border-color: $lightColor;
+		color: $lightColor;
+	}
+}
+.top {
+	.button {
+		border-color: $darkColor;
+		color: $darkColor;
+	}
+	z-index: 2;
+	background-color: $lightColor;
+	width: 50vw;
+
+	input {
+		background-color: transparent;
+		// color: black;
+		color: $darkColor;
+		border-radius: 5px;
+		// border-color: black;
+		border-color: $darkColor;
+	}
+	.title {
+		.underline {
+			background-color: $darkColor;
+		}
+	}
+}
+.bottom {
+	background-color: #f22;
+	z-index: 1;
+
+	input {
+		background-color: transparent;
+		color: $lightColor;
+		border-radius: 5px;
+		border-color: $lightColor;
+	}
+	.title {
+		.underline {
+			background-color: $lightColor;
+		}
+	}
+}
+
+.hilight-text {
+	color: $hilightColor;
+	font-weight: 600;
+	animation-name: greet;
+	animation-duration: 500ms;
+	animation-iteration-count: infinite;
+	animation-timing-function: ease-in-out;
+	animation-direction: alternate;
+	white-space: nowrap;
+}
+@keyframes greet {
+	from {
+		font-size: 1em;
+		transform: rotate(-2deg);
+	}
+	to {
+		font-size: 1.2em;
+		transform: rotate(2deg);
 	}
 }

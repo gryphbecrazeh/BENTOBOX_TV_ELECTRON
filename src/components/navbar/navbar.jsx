@@ -17,7 +17,7 @@ let NavBar = () => {
 	const toggle = () => setIsOpen(!isOpen);
 
 	return (
-		<Navbar color="dark" dark expand="md">
+		<Navbar expand="md">
 			<NavbarBrand>
 				<Link to="/">Bentobox TV</Link>
 			</NavbarBrand>
