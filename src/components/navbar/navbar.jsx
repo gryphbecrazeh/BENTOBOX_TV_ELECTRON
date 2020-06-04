@@ -30,6 +30,11 @@ let NavBar = () => {
 							<Link to="/catalog">Catalog</Link>
 						</NavLink>
 					</NavItem>
+					<NavItem>
+						<NavLink>
+							<Link to="/user">Login / Register</Link>
+						</NavLink>
+					</NavItem>
 				</Nav>
 			</Collapse>
 		</Navbar>
